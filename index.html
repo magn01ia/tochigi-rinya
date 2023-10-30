@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>tochigi-rinya</title>
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+<script src="https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.js"></script>
+<link href="https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.css" rel="stylesheet" />
+<style>
+body { margin: 0; padding: 0; }
+#map { position: absolute; top: 0; bottom: 0; width: 100%; }
+</style>
+</head>
+<body>
+<div id="map"></div>
+<script>
+const map = (window.map = new maplibregl.Map({
+    container: 'map',
+    zoom: 14,
+    center: [140.02994,37.00488],
+    pitch: 50,
+    style: {
+        version: 8,
+        sources: {
+            cstyle: {
+                type: 'raster',
+                tiles: ['https://rinya-tochigi.geospatial.jp/2023/rinya/tile/csmap/{z}/{x}/{y}.png '],
+                attribution: '<a href="https://www.geospatial.jp/ckan/dataset/csmap_tochigi" target="_blank">栃木県CS立体図</a>'
+            },
+            terrain: {
+                type: 'raster-dem',
+                tiles: ["https://rinya-tochigi.geospatial.jp/2023/rinya/tile/terrainRGB/{z}/{x}/{y}.png"],
+                attribution: '<a href="https://www.geospatial.jp/ckan/dataset/dem05_tochigi" target="_blank">栃木県DEM</a>',
+                minzoom: 9,
+                maxzoom: 18,
+            }
+        },
+        layers: [
+            {
+                id: 'cstyle',
+                type: 'raster',
+                source: 'cstyle'
+            }
+        ],
+        terrain: {
+            source: 'terrain',
+            exaggeration: 1
+        }
+    },
+    maxPitch: 85
+}));
+map.addControl(new maplibregl.FullscreenControl());
+</script>
+</body>
+</html>
